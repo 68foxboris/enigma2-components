@@ -3,7 +3,7 @@
 # Coded by bigroma & 2boom
 # Update By RAED for python3
 from Components.Converter.Converter import Converter
-from enigma import iServiceInformation, iPlayableService
+from enigma import iServiceInformation, iPlayableService, eServiceReference
 from Tools.Directories import fileExists
 from Components.Element import cached
 from Components.Converter.Poll import Poll
@@ -177,7 +177,8 @@ class CaidInfo2(Poll, Converter, object):
 	def getBoolean(self):
 
 		service = self.source.service
-		info = service and service.info()
+		isRef = isinstance(service, eServiceReference)
+		info = service.info() if (service and not isRef) else None
 		if not info:
 			return False
 
